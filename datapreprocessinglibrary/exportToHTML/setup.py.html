@@ -1,0 +1,52 @@
+<html>
+<head>
+<title>setup.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+setup.py</font>
+</center></td></tr></table>
+<pre><span class="s0">from </span><span class="s1">setuptools </span><span class="s0">import </span><span class="s1">setup</span><span class="s2">, </span><span class="s1">find_packages</span>
+
+<span class="s1">setup</span><span class="s2">(</span>
+    <span class="s1">name</span><span class="s2">=</span><span class="s3">'data_preprocessing_library_sevvalcucuk_asudesozcu'</span><span class="s2">,</span>
+    <span class="s1">version</span><span class="s2">=</span><span class="s3">'1.1.6'</span><span class="s2">,</span>
+    <span class="s1">description</span><span class="s2">=</span><span class="s3">'A comprehensive toolkit for data processing including handling dates, encoding categorical variables, handling missing values, outliers, and text cleaning.'</span><span class="s2">,</span>
+    <span class="s1">author</span><span class="s2">=</span><span class="s3">'Şevval Cücük, Asude Sözcü'</span><span class="s2">,</span>
+    <span class="s1">author_email</span><span class="s2">=</span><span class="s3">'sevcck@gmail.com sozcuasude@gmail.com'</span><span class="s2">,</span>
+    <span class="s1">url</span><span class="s2">=</span><span class="s3">'https://github.com/clavves/data_preprocessing_library_sevvalcucuk_asudesozcu'</span><span class="s2">,</span>
+    <span class="s1">packages</span><span class="s2">=</span><span class="s1">find_packages</span><span class="s2">(),</span>
+    <span class="s1">install_requires</span><span class="s2">=[</span>
+        <span class="s3">'pandas&gt;=1.1.0'</span><span class="s2">,</span>
+        <span class="s3">'numpy&gt;=1.19.0'</span><span class="s2">,</span>
+        <span class="s3">'python-dateutil&gt;=2.8.0'</span><span class="s2">,</span>
+        <span class="s3">'scikit-learn&gt;=0.24.0'</span><span class="s2">,</span>
+        <span class="s3">'nltk&gt;=3.5'</span><span class="s2">,</span>
+    <span class="s2">],</span>
+    <span class="s1">classifiers</span><span class="s2">=[</span>
+        <span class="s3">'Development Status :: 4 - Beta'</span><span class="s2">,</span>
+        <span class="s3">'Intended Audience :: Developers'</span><span class="s2">,</span>
+        <span class="s3">'Intended Audience :: Science/Research'</span><span class="s2">,</span>
+        <span class="s3">'License :: OSI Approved :: MIT License'</span><span class="s2">,</span>
+        <span class="s3">'Programming Language :: Python :: 3'</span><span class="s2">,</span>
+        <span class="s3">'Programming Language :: Python :: 3.7'</span><span class="s2">,</span>
+        <span class="s3">'Programming Language :: Python :: 3.8'</span><span class="s2">,</span>
+        <span class="s3">'Programming Language :: Python :: 3.9'</span><span class="s2">,</span>
+        <span class="s3">'Programming Language :: Python :: 3.10'</span><span class="s2">,</span>
+        <span class="s3">'Topic :: Software Development :: Libraries :: Python Modules'</span><span class="s2">,</span>
+        <span class="s3">'Topic :: Scientific/Engineering :: Information Analysis'</span><span class="s2">,</span>
+    <span class="s2">],</span>
+    <span class="s1">python_requires</span><span class="s2">=</span><span class="s3">'&gt;=3.7'</span><span class="s2">,</span>
+    <span class="s1">keywords</span><span class="s2">=</span><span class="s3">'data processing, data cleaning, date handling, encoding, imputation, outlier handling, text cleaning'</span><span class="s2">,</span>
+<span class="s2">)</span></pre>
+</body>
+</html>

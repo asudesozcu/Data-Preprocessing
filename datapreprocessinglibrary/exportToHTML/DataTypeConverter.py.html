@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>DataTypeConverter.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #2aacb8;}
+.s4 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+DataTypeConverter.py</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">pandas </span><span class="s0">as </span><span class="s1">pd</span>
+
+<span class="s0">class </span><span class="s1">DataTypeConverter</span><span class="s2">:</span>
+    <span class="s0">def </span><span class="s1">__init__</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s0">pass</span>
+
+    <span class="s0">def </span><span class="s1">to_numeric</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">df</span><span class="s2">, </span><span class="s1">columns</span><span class="s2">):</span>
+        <span class="s0">try</span><span class="s2">:</span>
+            <span class="s0">for </span><span class="s1">col </span><span class="s0">in </span><span class="s1">columns</span><span class="s2">:</span>
+                <span class="s1">unique_types </span><span class="s2">= </span><span class="s1">df</span><span class="s2">[</span><span class="s1">col</span><span class="s2">].</span><span class="s1">apply</span><span class="s2">(</span><span class="s1">type</span><span class="s2">).</span><span class="s1">unique</span><span class="s2">()</span>
+                <span class="s0">if </span><span class="s1">len</span><span class="s2">(</span><span class="s1">unique_types</span><span class="s2">) == </span><span class="s3">1 </span><span class="s0">or </span><span class="s2">(</span><span class="s1">len</span><span class="s2">(</span><span class="s1">unique_types</span><span class="s2">) == </span><span class="s3">2 </span><span class="s0">and </span><span class="s1">pd</span><span class="s2">.</span><span class="s1">NA </span><span class="s0">in </span><span class="s1">unique_types</span><span class="s2">):</span>
+                    <span class="s1">converted_values </span><span class="s2">= </span><span class="s1">pd</span><span class="s2">.</span><span class="s1">to_numeric</span><span class="s2">(</span><span class="s1">df</span><span class="s2">[</span><span class="s1">col</span><span class="s2">], </span><span class="s1">errors</span><span class="s2">=</span><span class="s4">'coerce'</span><span class="s2">)</span>
+                    <span class="s0">if not </span><span class="s1">pd</span><span class="s2">.</span><span class="s1">isnull</span><span class="s2">(</span><span class="s1">converted_values</span><span class="s2">).</span><span class="s1">all</span><span class="s2">():</span>
+                        <span class="s1">df</span><span class="s2">[</span><span class="s1">col</span><span class="s2">] = </span><span class="s1">converted_values</span>
+                    <span class="s0">else</span><span class="s2">:</span>
+                        <span class="s1">print</span><span class="s2">(</span><span class="s4">f&quot;Column '</span><span class="s0">{</span><span class="s1">col</span><span class="s0">}</span><span class="s4">' cannot be converted to numeric as all values are NaN.&quot;</span><span class="s2">)</span>
+                <span class="s0">else</span><span class="s2">:</span>
+                    <span class="s1">print</span><span class="s2">(</span><span class="s4">f&quot;Column '</span><span class="s0">{</span><span class="s1">col</span><span class="s0">}</span><span class="s4">' contains mixed data types and cannot be converted to numeric.&quot;</span><span class="s2">)</span>
+        <span class="s0">except </span><span class="s1">Exception </span><span class="s0">as </span><span class="s1">e</span><span class="s2">:</span>
+            <span class="s1">print</span><span class="s2">(</span><span class="s4">&quot;An error occurred during numeric conversion:&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+        <span class="s0">return </span><span class="s1">df</span>
+
+    <span class="s0">def </span><span class="s1">to_categorical</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">df</span><span class="s2">, </span><span class="s1">columns</span><span class="s2">):</span>
+        <span class="s0">try</span><span class="s2">:</span>
+            <span class="s0">for </span><span class="s1">col </span><span class="s0">in </span><span class="s1">columns</span><span class="s2">:</span>
+                <span class="s1">unique_types </span><span class="s2">= </span><span class="s1">df</span><span class="s2">[</span><span class="s1">col</span><span class="s2">].</span><span class="s1">apply</span><span class="s2">(</span><span class="s1">type</span><span class="s2">).</span><span class="s1">unique</span><span class="s2">()</span>
+                <span class="s0">if </span><span class="s1">len</span><span class="s2">(</span><span class="s1">unique_types</span><span class="s2">) == </span><span class="s3">1 </span><span class="s0">or </span><span class="s2">(</span><span class="s1">len</span><span class="s2">(</span><span class="s1">unique_types</span><span class="s2">) == </span><span class="s3">2 </span><span class="s0">and </span><span class="s1">pd</span><span class="s2">.</span><span class="s1">NA </span><span class="s0">in </span><span class="s1">unique_types</span><span class="s2">):</span>
+                    <span class="s1">converted_values </span><span class="s2">= </span><span class="s1">df</span><span class="s2">[</span><span class="s1">col</span><span class="s2">].</span><span class="s1">astype</span><span class="s2">(</span><span class="s4">'category'</span><span class="s2">)</span>
+                    <span class="s1">df</span><span class="s2">[</span><span class="s1">col</span><span class="s2">] = </span><span class="s1">converted_values</span>
+                <span class="s0">else</span><span class="s2">:</span>
+                    <span class="s1">print</span><span class="s2">(</span><span class="s4">f&quot;Column '</span><span class="s0">{</span><span class="s1">col</span><span class="s0">}</span><span class="s4">' contains mixed data types and cannot be converted to categorical.&quot;</span><span class="s2">)</span>
+        <span class="s0">except </span><span class="s1">Exception </span><span class="s0">as </span><span class="s1">e</span><span class="s2">:</span>
+            <span class="s1">print</span><span class="s2">(</span><span class="s4">&quot;An error occurred during categorical conversion:&quot;</span><span class="s2">, </span><span class="s1">e</span><span class="s2">)</span>
+        <span class="s0">return </span><span class="s1">df</span></pre>
+</body>
+</html>

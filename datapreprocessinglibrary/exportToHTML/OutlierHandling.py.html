@@ -1,0 +1,87 @@
+<html>
+<head>
+<title>OutlierHandling.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+.s4 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+OutlierHandling.py</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">pandas </span><span class="s0">as </span><span class="s1">pd</span>
+<span class="s0">import </span><span class="s1">numpy </span><span class="s0">as </span><span class="s1">np</span>
+
+
+<span class="s0">class </span><span class="s1">OutlierHandling</span><span class="s2">:</span>
+    <span class="s0">def </span><span class="s1">__init__</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">file_path</span><span class="s2">):</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">file_path </span><span class="s2">= </span><span class="s1">file_path</span>
+        <span class="s0">try</span><span class="s2">:</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">data </span><span class="s2">= </span><span class="s1">pd</span><span class="s2">.</span><span class="s1">read_csv</span><span class="s2">(</span><span class="s1">file_path</span><span class="s2">)</span>
+        <span class="s0">except </span><span class="s1">Exception </span><span class="s0">as </span><span class="s1">e</span><span class="s2">:</span>
+            <span class="s1">print</span><span class="s2">(</span><span class="s3">f&quot; error occurred!&quot;</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">round_outlier</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">column</span><span class="s2">, </span><span class="s1">threshold</span><span class="s2">=</span><span class="s4">1.5</span><span class="s2">):</span>
+
+        <span class="s1">non_null_data </span><span class="s2">= </span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">].</span><span class="s1">dropna</span><span class="s2">()</span>
+        <span class="s1">Q1 </span><span class="s2">= </span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">].</span><span class="s1">quantile</span><span class="s2">(</span><span class="s4">0.25</span><span class="s2">)</span>
+        <span class="s1">Q3 </span><span class="s2">= </span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">].</span><span class="s1">quantile</span><span class="s2">(</span><span class="s4">0.75</span><span class="s2">)</span>
+        <span class="s1">IQR </span><span class="s2">= </span><span class="s1">Q3 </span><span class="s2">- </span><span class="s1">Q1</span>
+
+        <span class="s0">if </span><span class="s1">IQR </span><span class="s2">== </span><span class="s4">0</span><span class="s2">:</span>
+            <span class="s0">return</span>
+
+        <span class="s1">lower_bound </span><span class="s2">= </span><span class="s1">Q1 </span><span class="s2">- (</span><span class="s1">threshold </span><span class="s2">* </span><span class="s1">IQR</span><span class="s2">)</span>
+        <span class="s1">upper_bound </span><span class="s2">= </span><span class="s1">Q3 </span><span class="s2">+ (</span><span class="s1">threshold </span><span class="s2">* </span><span class="s1">IQR</span><span class="s2">)</span>
+        <span class="s1">print</span><span class="s2">(</span><span class="s3">f&quot;column: </span><span class="s0">{</span><span class="s1">column</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+        <span class="s1">print</span><span class="s2">(</span><span class="s3">f&quot;lower bound is </span><span class="s0">{</span><span class="s1">lower_bound</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+        <span class="s1">print</span><span class="s2">(</span><span class="s3">f&quot;upper bound is </span><span class="s0">{</span><span class="s1">upper_bound</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+
+        <span class="s0">if </span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">].</span><span class="s1">dtype </span><span class="s2">== </span><span class="s3">'int64'</span><span class="s2">:</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">] = </span><span class="s1">np</span><span class="s2">.</span><span class="s1">where</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">] &lt; </span><span class="s1">lower_bound</span><span class="s2">, </span><span class="s1">int</span><span class="s2">(</span><span class="s1">lower_bound</span><span class="s2">), </span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">])</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">] = </span><span class="s1">np</span><span class="s2">.</span><span class="s1">where</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">] &gt; </span><span class="s1">upper_bound</span><span class="s2">, </span><span class="s1">int</span><span class="s2">(</span><span class="s1">upper_bound</span><span class="s2">), </span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">])</span>
+        <span class="s0">else</span><span class="s2">:</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">] = </span><span class="s1">np</span><span class="s2">.</span><span class="s1">where</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">] &lt; </span><span class="s1">lower_bound</span><span class="s2">, </span><span class="s1">lower_bound</span><span class="s2">, </span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">])</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">] = </span><span class="s1">np</span><span class="s2">.</span><span class="s1">where</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">] &gt; </span><span class="s1">upper_bound</span><span class="s2">, </span><span class="s1">upper_bound</span><span class="s2">, </span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">])</span>
+
+    <span class="s0">def </span><span class="s1">round_all_outliers</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">threshold</span><span class="s2">=</span><span class="s4">1.5</span><span class="s2">):</span>
+        <span class="s1">columns </span><span class="s2">= </span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">.</span><span class="s1">select_dtypes</span><span class="s2">(</span><span class="s1">include</span><span class="s2">=[</span><span class="s3">'int64'</span><span class="s2">, </span><span class="s3">'float64'</span><span class="s2">]).</span><span class="s1">columns</span>
+        <span class="s0">for </span><span class="s1">column </span><span class="s0">in </span><span class="s1">columns</span><span class="s2">:</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">round_outlier</span><span class="s2">(</span><span class="s1">column</span><span class="s2">, </span><span class="s1">threshold</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">remove_outliers</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">column</span><span class="s2">, </span><span class="s1">threshold</span><span class="s2">=</span><span class="s4">1.5</span><span class="s2">):</span>
+        <span class="s1">Q1 </span><span class="s2">= </span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">].</span><span class="s1">quantile</span><span class="s2">(</span><span class="s4">0.25</span><span class="s2">)</span>
+        <span class="s1">Q3 </span><span class="s2">= </span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">].</span><span class="s1">quantile</span><span class="s2">(</span><span class="s4">0.75</span><span class="s2">)</span>
+        <span class="s1">IQR </span><span class="s2">= </span><span class="s1">Q3 </span><span class="s2">- </span><span class="s1">Q1</span>
+
+        <span class="s0">if </span><span class="s1">IQR </span><span class="s2">== </span><span class="s4">0</span><span class="s2">:</span>
+            <span class="s0">return</span>
+
+        <span class="s1">lower_bound </span><span class="s2">= </span><span class="s1">Q1 </span><span class="s2">- </span><span class="s1">threshold </span><span class="s2">* </span><span class="s1">IQR</span>
+        <span class="s1">upper_bound </span><span class="s2">= </span><span class="s1">Q3 </span><span class="s2">+ </span><span class="s1">threshold </span><span class="s2">* </span><span class="s1">IQR</span>
+
+        <span class="s0">if </span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">].</span><span class="s1">dtype </span><span class="s2">== </span><span class="s3">'int64'</span><span class="s2">:</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">] = </span><span class="s1">np</span><span class="s2">.</span><span class="s1">where</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">] &lt; </span><span class="s1">lower_bound</span><span class="s2">, </span><span class="s1">int</span><span class="s2">(</span><span class="s1">lower_bound</span><span class="s2">), </span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">])</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">] = </span><span class="s1">np</span><span class="s2">.</span><span class="s1">where</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">] &gt; </span><span class="s1">upper_bound</span><span class="s2">, </span><span class="s1">int</span><span class="s2">(</span><span class="s1">upper_bound</span><span class="s2">), </span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">])</span>
+        <span class="s0">else</span><span class="s2">:</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">] = </span><span class="s1">np</span><span class="s2">.</span><span class="s1">where</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">] &lt; </span><span class="s1">lower_bound</span><span class="s2">, </span><span class="s1">lower_bound</span><span class="s2">, </span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">])</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">] = </span><span class="s1">np</span><span class="s2">.</span><span class="s1">where</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">] &gt; </span><span class="s1">upper_bound</span><span class="s2">, </span><span class="s1">upper_bound</span><span class="s2">, </span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">[</span><span class="s1">column</span><span class="s2">])</span>
+
+    <span class="s0">def </span><span class="s1">remove_all_outliers</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">threshold</span><span class="s2">=</span><span class="s4">1.5</span><span class="s2">):</span>
+        <span class="s1">columns </span><span class="s2">= </span><span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">.</span><span class="s1">select_dtypes</span><span class="s2">(</span><span class="s1">include</span><span class="s2">=[</span><span class="s3">'int64'</span><span class="s2">, </span><span class="s3">'float64'</span><span class="s2">]).</span><span class="s1">columns</span>
+        <span class="s0">for </span><span class="s1">column </span><span class="s0">in </span><span class="s1">columns</span><span class="s2">:</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">remove_outliers</span><span class="s2">(</span><span class="s1">column</span><span class="s2">, </span><span class="s1">threshold</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">save_rounded_data</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">output_file</span><span class="s2">):</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">data</span><span class="s2">.</span><span class="s1">to_csv</span><span class="s2">(</span><span class="s1">output_file</span><span class="s2">, </span><span class="s1">index</span><span class="s2">=</span><span class="s0">False</span><span class="s2">)</span>
+        <span class="s1">print</span><span class="s2">(</span><span class="s3">f&quot;Data saved to </span><span class="s0">{</span><span class="s1">output_file</span><span class="s0">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+</pre>
+</body>
+</html>
