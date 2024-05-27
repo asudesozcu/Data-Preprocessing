@@ -1,15 +1,4 @@
 <html>
-<head>
-<title>README.md</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<style type="text/css">
-.s0 { color: #cf8e6d;}
-.s1 { color: #bcbec4;}
-.s2 { color: #bcbec4;}
-.s3 { color: #c77dbb; font-style: italic;}
-.s4 { color: #6aab73;}
-</style>
-</head>
 <body bgcolor="#1e1f22">
 <table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
 <tr><td><center>
