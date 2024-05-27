@@ -21,12 +21,7 @@ README.md</font>
 <span class="s0">- </span><span class="s1">**</span><span class="s2">Text Cleaning</span><span class="s1">**: </span><span class="s2">Remove punctuation, stopwords, and apply stemming or lemmatization.</span>
 
 <span class="s0">## </span><span class="s2">Installation</span>
-
-<span class="s2">To install the package, clone the repository and run</span><span class="s1">:</span>
-
-<span class="s0">```</span><span class="s3">bash</span>
-<span class="s4">git clone https://github.com/clavves/data_preprocessing_library_sevvalcucuk_asudesozcu</span>
-<span class="s4">cd data_processing_toolkit</span>
-<span class="s4">pip install .</span></pre>
+<span class="s2">To install the package:</span><span class="s1">:</span>
+<span class="s4">https://pypi.org/project/data-preprocessing-library-sevvalcucuk-asudesozcu/</span></pre>
 </body>
 </html>
